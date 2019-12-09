@@ -1148,6 +1148,7 @@ namespace grafmp2lab3stack {
 
 		}
 #pragma endregion
+	
 		void TDrawLineAxis()
 		{
 			gr->DrawLine(AxisPen, 470, 275, 850, 275);
@@ -1173,45 +1174,41 @@ namespace grafmp2lab3stack {
 			gr->DrawLine(Mypen,x1+662, -y1+275,x2+662,-y2+275);
 			
 		}
+		std::string ZamenaNaX(std::string _String_Graf,double x) {
+			std::string String_Graf = _String_Graf;
+			std::string StrX;
+			std::string NewString = "";
+			StrX = std::to_string(x);
+			for (size_t i = 0; i < String_Graf.size(); i++)
+			{
+				if (!strncmp(&String_Graf[i], "x", 1))
+				{
+					if (strncmp(&String_Graf[i], "xp", 2))
+					{
+						NewString += "(";
+						NewString += StrX;
+						NewString += ")";
+					}
+					else
+					{
+						NewString += "x";
+					}
+				}
+				else
+				{
+					NewString += String_Graf[i];
+				}
+			}
+			return NewString;
+		}
 		void InicGraf(std::string _String_Graf,Pen^ Mypen,double _Size)
 		{
-			std::string BeforeX = "";
-			std::string AfterX = "";
 			TCalculator calcul_for_graf;
-			bool flag = 0;
 			double LeftBorder = -(_Size);
 			double RightBorder =_Size;
 			double UpBorder = _Size;
 			double DownBorder = -(_Size);
 			//
-			std::string String_Graf=_String_Graf;
-			BeforeX = "";
-			AfterX = "";
-			flag = 0;
-			for (int i = 0; i < String_Graf.size(); i++)
-			{
-				if (String_Graf[i] == 'x')
-				{
-					if (!strncmp(&String_Graf[i], "xp", 2)) {
-						BeforeX += String_Graf[i];
-					}
-					else
-					{
-						flag = 1;
-					}
-				}
-				else
-				{
-					if (flag == 0)
-					{
-						BeforeX += String_Graf[i];
-					}
-					else
-					{
-						AfterX += String_Graf[i];
-					}
-				}
-			}
 			/*
 			LeftBorder = -7;
 			RightBorder = 7;
@@ -1238,43 +1235,20 @@ namespace grafmp2lab3stack {
 			label6->Text = gcnew System::String(std::to_string(LeftBorder).c_str());
 			try
 			{
-				if (flag == 0) {
-					calcul_for_graf.SetExpr(String_Graf);
-					double y;
-					y = calcul_for_graf.Calc();
-					for (double x = LeftBorder; x <= RightBorder; x = x + 1)
-					{
-						if (y <= UpBorder && y >= DownBorder)
-						{
-							TDrawGraf(Mypen,380 / (2 * RightBorder)* x, 380 / (2 * RightBorder) * y, 380 / (2 * RightBorder) * (x + 1), 380 / (2 * RightBorder) * y);
-						}
-					}
-				}
-				else
+				std::string StringGraf = _String_Graf;
+				for (double x = LeftBorder; x <= RightBorder; x = x + 0.001)
 				{
-					for (double x = LeftBorder; x <= RightBorder; x = x + 0.001)
-					{
-
-						std::string tmp = "";
-						tmp += BeforeX;
-						tmp += std::to_string(x);
-						tmp += AfterX;
-						calcul_for_graf.SetExpr(tmp);
-						double y1 = calcul_for_graf.Calc();
-						tmp = "";
-						tmp += BeforeX;
-						tmp += std::to_string(x + 0.001);
-						tmp += AfterX;
-						calcul_for_graf.SetExpr(tmp);
-						double y2 = calcul_for_graf.Calc();
-						if (!isnan(y1) && !isnan(y2))
+					calcul_for_graf.SetExpr(ZamenaNaX(StringGraf,x));
+					double y1 = calcul_for_graf.Calc();	
+					calcul_for_graf.SetExpr(ZamenaNaX(StringGraf,x+0.001));
+					double y2 = calcul_for_graf.Calc();
+					if (!isnan(y1) && !isnan(y2))
 						{
-							if (y1 <= UpBorder && y1 >= DownBorder && y2 <= UpBorder && y2 >= DownBorder)
+						if (y1 <= UpBorder && y1 >= DownBorder && y2 <= UpBorder && y2 >= DownBorder)
 							{
 								TDrawGraf(Mypen,380 / (2 * RightBorder) * x, 380 / (2 * RightBorder) * y1, 380 / (2 * RightBorder) * (x + 0.001), 380 / (2 * RightBorder) * y2);
 							}
 						}
-					}
 				}
 			}
 			catch (char[])

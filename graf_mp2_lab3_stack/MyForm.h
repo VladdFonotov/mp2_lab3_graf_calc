@@ -1127,7 +1127,7 @@ private: System::ComponentModel::IContainer^  components;
 			this->button43->Name = L"button43";
 			this->button43->Size = System::Drawing::Size(41, 407);
 			this->button43->TabIndex = 57;
-			this->button43->Text = L"=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n=>\r\n";
+			this->button43->Text = L"--->\r\n--->\r\n--->\r\n--->\r\n--->\r\n--->\r\n--->\r\n--->\r\n--->\r\n--->";
 			this->button43->UseVisualStyleBackColor = false;
 			this->button43->Click += gcnew System::EventHandler(this, &MyForm::button43_Click);
 			// 
@@ -1675,7 +1675,7 @@ private: System::Void button43_Click(System::Object^  sender, System::EventArgs^
 		button43->Text = "";
 		for (int i = 0; i < 25; i++)
 		{
-			button43->Text += "<=";
+			button43->Text += "<---";
 		}
 		
 	}
@@ -1687,7 +1687,7 @@ private: System::Void button43_Click(System::Object^  sender, System::EventArgs^
 		for (int i = 0; i < 10; i++)
 		{
 			
-			button43->Text += "=>";
+			button43->Text += "--->";
 		}
 		this->Width = 480;
 		this->Height = 480;

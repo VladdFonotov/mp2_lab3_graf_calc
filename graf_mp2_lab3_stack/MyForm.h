@@ -32,7 +32,7 @@ namespace grafmp2lab3stack {
 		double CacheSize=5;
 		int flag_click= 0;
 		bool flag_draw_main=0;
-		bool flag_draw = 0;
+		bool flag_draw=0;
 		
 	private: System::Windows::Forms::Button^  button33;
 
@@ -1228,7 +1228,6 @@ private: System::ComponentModel::IContainer^  components;
 		void TDrawGraf(Pen^ Mypen,int x1,int y1,int x2,int y2)
 		{
 			gr->DrawLine(Mypen,x1+662, -y1+275,x2+662,-y2+275);
-			
 		}
 		std::string ZamenaNaX(std::string _String_Graf,double x) {
 			std::string String_Graf = _String_Graf;
@@ -1350,27 +1349,20 @@ private: System::Void button25_Click(System::Object^  sender, System::EventArgs^
 }
 private: System::Void button30_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (flag_click){
-		InicGraf(CacheGraf[0], EraserGrafPen, MainCacheSize);
-		CacheGraf[0] = msclr::interop::marshal_as<std::string>(textBox1->Text);
-		if (textBox2->Text != "")
+		if (flag_draw_main == 1)
 		{
-			try
-			{
-				MainCacheSize = (abs(Convert::ToDouble(textBox2->Text)));
-			}
-			catch (const std::exception&)
-			{
-				label1->Text = "¬ведите размер системы координат";
-			}
+			InicGraf(CacheGraf[0], EraserGrafPen, MainCacheSize);
 		}
 		//
 		std::string String_Graf;
 		double Size;
+		CacheGraf[0] = msclr::interop::marshal_as<std::string>(textBox1->Text);
 		String_Graf = msclr::interop::marshal_as<std::string>(textBox1->Text);
 		if (textBox2->Text != "")
 		{
 			try
 			{
+				MainCacheSize = (abs(Convert::ToDouble(textBox2->Text)));
 				Size = (abs(Convert::ToDouble(textBox2->Text)));
 			}
 			catch (const std::exception&)
@@ -1584,6 +1576,7 @@ private: System::Void textBox2_TextChanged(System::Object^  sender, System::Even
 private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void button35_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (flag_draw == 1){
 		InicGraf(CacheGraf[1], EraserGrafPen, CacheSize);
 		CacheGraf[1] = msclr::interop::marshal_as<std::string>(textBox3->Text);
 		InicGraf(CacheGraf[2], EraserGrafPen, CacheSize);
@@ -1594,23 +1587,12 @@ private: System::Void button35_Click(System::Object^  sender, System::EventArgs^
 		CacheGraf[4] = msclr::interop::marshal_as<std::string>(textBox6->Text);
 		InicGraf(CacheGraf[5], EraserGrafPen, CacheSize);
 		CacheGraf[5] = msclr::interop::marshal_as<std::string>(textBox7->Text);
-		if (textBox2->Text != "")
-		{
-			try
-			{
-				CacheSize = (abs(Convert::ToDouble(textBox2->Text)));
-			}
-			catch (const std::exception&)
-			{
-				label1->Text = "¬ведите размер системы координат";
-			}
-		}
-
-		TDrawLineAxis();
-		if (flag_draw_main==1)
+		if (flag_draw_main == 1)
 		{
 			InicGraf(CacheGraf[0], MainGrafPen, MainCacheSize);
 		}
+	}
+		TDrawLineAxis();
 		std::string String_Graf;
 		double Size;
 		if (textBox2->Text != "")
@@ -1618,6 +1600,7 @@ private: System::Void button35_Click(System::Object^  sender, System::EventArgs^
 			try
 			{
 				Size = (abs(Convert::ToDouble(textBox2->Text)));
+				CacheSize = (abs(Convert::ToDouble(textBox2->Text)));
 			}
 			catch (const std::exception&)
 			{
@@ -1625,32 +1608,37 @@ private: System::Void button35_Click(System::Object^  sender, System::EventArgs^
 			}
 		}
 		String_Graf = msclr::interop::marshal_as<std::string>(textBox3->Text);
+		CacheGraf[1] =String_Graf;
 		InicGraf(String_Graf, GrafPen1, Size);
 		String_Graf = msclr::interop::marshal_as<std::string>(textBox4->Text);
+		CacheGraf[2] = String_Graf;
 		InicGraf(String_Graf, GrafPen2, Size);
 		String_Graf = msclr::interop::marshal_as<std::string>(textBox5->Text);
+		CacheGraf[3] = String_Graf;
 		InicGraf(String_Graf, GrafPen3, Size);
 		String_Graf = msclr::interop::marshal_as<std::string>(textBox6->Text);
+		CacheGraf[4] = String_Graf;
 		InicGraf(String_Graf, GrafPen4, Size);
 		String_Graf = msclr::interop::marshal_as<std::string>(textBox7->Text);
+		CacheGraf[5] = String_Graf;
 		InicGraf(String_Graf, GrafPen5, Size);
 		flag_draw = true;
 	
 }
 private: System::Void button36_Click(System::Object^  sender, System::EventArgs^  e) {
-	
-	InicGraf(CacheGraf[1], EraserGrafPen,CacheSize);
-	InicGraf(CacheGraf[2], EraserGrafPen,CacheSize);
-	InicGraf(CacheGraf[3], EraserGrafPen,CacheSize);
-	InicGraf(CacheGraf[4], EraserGrafPen,CacheSize);
-	InicGraf(CacheGraf[5], EraserGrafPen,CacheSize);
-	flag_draw = false;
-	TDrawLineAxis();
-	if (flag_draw_main==1)
-	{
-		InicGraf(CacheGraf[0], MainGrafPen, MainCacheSize);
+	if (flag_draw == 1) {
+		InicGraf(CacheGraf[1], EraserGrafPen, CacheSize);
+		InicGraf(CacheGraf[2], EraserGrafPen, CacheSize);
+		InicGraf(CacheGraf[3], EraserGrafPen, CacheSize);
+		InicGraf(CacheGraf[4], EraserGrafPen, CacheSize);
+		InicGraf(CacheGraf[5], EraserGrafPen, CacheSize);
+		TDrawLineAxis();
+		if (flag_draw_main == 1)
+		{
+			InicGraf(CacheGraf[0], MainGrafPen, MainCacheSize);
+		}
+		flag_draw = false;
 	}
-	
 }
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 	this->Width = 470;
@@ -1662,19 +1650,19 @@ private: System::Void textBox3_TextChanged(System::Object^  sender, System::Even
 private: System::Void button37_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void button42_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (flag_draw_main == 1) {
+	if (flag_draw_main == 1){
 		InicGraf(CacheGraf[0], EraserGrafPen, MainCacheSize);
+		TDrawLineAxis();
+		if (flag_draw == 1)
+		{
+			InicGraf(CacheGraf[1], GrafPen1, CacheSize);
+			InicGraf(CacheGraf[2], GrafPen2, CacheSize);
+			InicGraf(CacheGraf[3], GrafPen3, CacheSize);
+			InicGraf(CacheGraf[4], GrafPen4, CacheSize);
+			InicGraf(CacheGraf[5], GrafPen5, CacheSize);
+		}
 	}
 	flag_draw_main = false;
-	if (flag_draw == 1)
-	{
-		InicGraf(CacheGraf[1], GrafPen1, CacheSize);
-		InicGraf(CacheGraf[2], GrafPen2, CacheSize);
-		InicGraf(CacheGraf[3], GrafPen3, CacheSize);
-		InicGraf(CacheGraf[4], GrafPen4, CacheSize);
-		InicGraf(CacheGraf[5], GrafPen5, CacheSize);
-	}
-	TDrawLineAxis();
 }
 private: System::Void button43_Click(System::Object^  sender, System::EventArgs^  e) {
 	

@@ -146,6 +146,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MyLine.h" />
+    <ClInclude Include="Stack_L.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">

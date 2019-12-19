@@ -19,7 +19,7 @@ abs=m;
 #include<iostream>
 #include<string>
 #include<math.h>
-#include "Stack.h"
+#include "Stack_L.h"
 #include"fact.h"
 
 
@@ -39,7 +39,7 @@ public:
 	double Calc();
 };
 
-TCalculator::TCalculator() :st_char(64), st_double(64)
+TCalculator::TCalculator() :st_char(), st_double()
 {
 }
 

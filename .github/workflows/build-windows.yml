@@ -3,25 +3,27 @@ name: Build Release for Windows
 on:
   push:
     tags:
-      - 'v*' # Сборка запустится автоматически, когда вы создадите тег версии (например, v1.0)
+      - 'v*'
 
 jobs:
   build:
-    runs-on: windows-latest # GitHub запустит чистую Windows-машину
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Configure CMake
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+    - name: Set up MSVC Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1
 
     - name: Build Project
-      run: cmake --build build --config Release
+      run: |
+        cl.exe /EHsc /O2 *.cpp /Fe:graphic_calc.exe
 
     - name: Create Release and Upload Artifact
       uses: softprops/action-gh-release@v2
       with:
-        files: build/Release/*.exe # Путь к вашему готовому файлу после компиляции
+        files: graphic_calc.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

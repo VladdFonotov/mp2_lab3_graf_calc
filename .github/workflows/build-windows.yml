@@ -17,8 +17,14 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
 
     - name: Build Project
+      shell: bash
       run: |
-        cl.exe /EHsc /O2 *.cpp /Fe:graphic_calc.exe
+        # Ищем все файлы с расширением .cpp во всех папках проекта
+        CPP_FILES=$(find . -name "*.cpp" | tr '\n' ' ')
+        echo "Найдено файлов для сборки: $CPP_FILES"
+        
+        # Компилируем программу
+        cl.exe /EHsc /O2 $CPP_FILES /Fe:graphic_calc.exe
 
     - name: Create Release and Upload Artifact
       uses: softprops/action-gh-release@v2
@@ -26,4 +32,3 @@ jobs:
         files: graphic_calc.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

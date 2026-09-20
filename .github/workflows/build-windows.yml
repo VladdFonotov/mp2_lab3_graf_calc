@@ -21,12 +21,19 @@ jobs:
       env:
         MSYS_NO_PATHCONV: 1
       run: |
-        # Ищем все файлы с расширением .cpp во всех папках проекта
+        # Собираем абсолютно все файлы .cpp в проекте, где бы они ни лежали
         CPP_FILES=$(find . -name "*.cpp" | tr '\n' ' ')
         echo "Найдено файлов для сборки: $CPP_FILES"
         
-        # Компилируем без -EHsc, добавляем сборку графической подсистемы Windows
-        cl.exe -clr -O2 $CPP_FILES -Fe:graphic_calc.exe -link -subsystem:windows
+        # Компилируем проект со всеми необходимыми библиотеками интерфейса .NET 4.8
+        cl.exe -clr -O2 \
+          -AI "C:/Program Files/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.8" \
+          -FU "System.dll" \
+          -FU "System.Windows.Forms.dll" \
+          -FU "System.Drawing.dll" \
+          -FU "System.Data.dll" \
+          $CPP_FILES -Fe:graphic_calc.exe \
+          -link -subsystem:windows -entry:main
 
     - name: Create Release and Upload Artifact
       uses: softprops/action-gh-release@v2

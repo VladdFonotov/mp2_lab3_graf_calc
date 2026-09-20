@@ -18,13 +18,15 @@ jobs:
 
     - name: Build Project
       shell: bash
+      env:
+        MSYS_NO_PATHCONV: 1  # Запрещаем Bash ломать флаги компилятора
       run: |
-        # Ищем все файлы с расширением .cpp
+        # Ищем все файлы с расширением .cpp во всех папках проекта
         CPP_FILES=$(find . -name "*.cpp" | tr '\n' ' ')
         echo "Найдено файлов для сборки: $CPP_FILES"
         
-        # Компилируем с флагом /clr для поддержки Windows Forms
-        cl.exe /clr /EHsc /O2 $CPP_FILES /Fe:graphic_calc.exe
+        # Компилируем с флагами через дефис, чтобы избежать конфликтов путей
+        cl.exe -clr -EHsc -O2 $CPP_FILES -Fe:graphic_calc.exe
 
     - name: Create Release and Upload Artifact
       uses: softprops/action-gh-release@v2
@@ -32,4 +34,3 @@ jobs:
         files: graphic_calc.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
